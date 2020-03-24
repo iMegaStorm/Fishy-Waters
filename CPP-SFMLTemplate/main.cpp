@@ -1,9 +1,11 @@
-//updated on 21/03/2020
+//updated on 19/02/2020
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include<fstream>
 #include "loadAssets.h"
+#include "Player.h"
+
 
 //Compiler Directives
 using namespace std;
@@ -12,7 +14,11 @@ RenderWindow window(VideoMode(832, 576), "Fishy Waters"); // 13 squares wide, 9 
 
 LoadAssets loadAssets;
 
+
+
 bool mapEditor = false;
+
+void Currency ();
 
 bool canMove(int tileType)
 {
@@ -90,7 +96,6 @@ void inputs (Sprite &ship_1, Vector2i &posBoat, int &startI, int &startJ, int wo
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::D) && canMove(fishyWorld[posBoat.y + startI - 1][posBoat.x + startJ+1]))
 	{
-		
 		ship_1.setRotation(270);
 	if(posBoat.x + startJ >= 6 && posBoat.x + startJ <= worldWidth - 8)
 		{
@@ -114,7 +119,7 @@ Sprite &water_8, Sprite &water_9, Sprite &water_10, Sprite &water_11, Sprite &wa
 Sprite &water_16, Sprite &water_17, Sprite &water_18, Sprite &water_19, Sprite &water_20, Sprite &grass_21, Sprite &grass_22, Sprite &grass_23, 
 Sprite &grass_24,  Sprite &grass_25, Sprite &grass_26, Sprite &grass_27, Sprite &grass_28, Sprite &grass_29, Sprite &grass_30, Sprite &grass_31,
 Sprite &grass_32, Sprite &grass_33, Sprite &ship_1, Sprite &pirateShip, Sprite &blockade, Sprite &fish1, Sprite &fish2, Sprite &fish3, Sprite &shop,
-Sprite &blockadeLeft, Sprite &blockadeRight)
+Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems)
 {
 	water_0 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_000", "png");
 	water_1 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_001", "png");
@@ -166,6 +171,8 @@ Sprite &blockadeLeft, Sprite &blockadeRight)
 	fish3 = loadAssets.LoadSpriteFromTexture("Assets/", "Fish3", "png");
 
 	shop = loadAssets.LoadSpriteFromTexture("Assets/", "Shop", "png");
+
+	gems = loadAssets.LoadSpriteFromTexture("Assets/", "Gem", "png");
 	
 }
 
@@ -174,11 +181,10 @@ int main()
 //Local Variables
 	//Event Variables
 	Event event;
-	//Clock Variables
-	Clock fishyClock;
 
-	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, fish1, fish2, fish3, shop, blockadeRight, blockadeLeft;
-	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, fish1, fish2, fish3, shop, blockadeRight, blockadeLeft);
+
+	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, fish1, fish2, fish3, shop, blockadeRight, blockadeLeft, gems;
+	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, fish1, fish2, fish3, shop, blockadeRight, blockadeLeft, gems);
 
 	//RectangleShape fishyBoat;
 	//fishyBoat.setSize(Vector2f(64, 64));
@@ -186,37 +192,31 @@ int main()
 
 	int fishyWorld[40][50]; //Declaring my array
 	int worldWidth = 50; //world Width
-	int worldHeight = 40; //World Height 
+	int worldHeight = 40; //World Height
 
 	//Starting position
 	int startI = 0;
 	int startJ = 0;
-
+	
 	Vector2i posBoat (0, 3); //Setting position of the boat
-
-	ifstream fishyMap("Assets/Map.txt"); //Reading map
 	
 	window.setFramerateLimit(60);
 
+	int gemsNo = 0;
 
-	int i, j;
-	srand(time(NULL));
-	for(i=0; i < worldHeight; i++)
-	{
-		for(j=0; j < worldWidth; j++)
-		{
-			fishyMap>>fishyWorld[i][j];
-			if (fishyWorld[i][j] == 04)
-			{
-				int ransE = rand() %97; //random number of 20 * use a prime number 
-				if(ransE <= 2) { //If the number is less than or equal to 2 then spawn in a fish
-					ransE += 53; //fish spawn starts at 53
-					fishyWorld[i][j] = ransE; //spawn in a fish
-				}
-			}
-		}
-		
-	}
+	//Font Variable
+	sf::Font ArialFont;
+	sf::Text text;
+	float ArialCurrentScaleX = 0.8f,ArialCurrentScaleY = 0.8f;
+	sf::Vector2f ArialLocation(35,0);
+
+	ArialFont.loadFromFile("Fonts/Arial/arial.ttf");
+
+	sf::Text Arial;
+	Arial.setScale(sf::Vector2f(ArialCurrentScaleX,ArialCurrentScaleY));
+	Arial.setFont(ArialFont);
+	Arial.setPosition(ArialLocation.x, ArialLocation.y);
+	Arial.setString("Gems: ");
 	
 	Sprite tileType[36] = 
 	{
@@ -245,6 +245,7 @@ int main()
 		window.clear(sf::Color(100,100,100));
 
 		int noFishes = 0;
+		int i, j;
 		for(i = startI; i < startI + 9; i++)
 		{
 			for(j = startJ; j < startJ + 13; j++)
@@ -281,7 +282,7 @@ int main()
 					water_4.setPosition((j-startJ)*64, (i-startI)*64);
 					window.draw(water_4);
 					pirateShip.setPosition((j-startJ)*64, (i-startI)*64);
-					window.draw(pirateShip);
+				window.draw(pirateShip);
 				}
 				else if (fishyWorld[i][j] >= 21) 
 				{
@@ -293,34 +294,10 @@ int main()
 				}
 			}
 		}
-					//getting the seconds
-					int sec = (int) fishyClock.getElapsedTime().asSeconds();
-					//add a row at every secToAdd seconds
-					int secToAdd = 15;
-					//adding a row only if the game started
-					srand(time(NULL));
-					if(sec % secToAdd == secToAdd - 1 && noFishes < 10)
-					{
-						int sI; //x co-ordinate
-						int sJ; //y co-ordinate
-						do 
-						{
-							sI = rand() % 9 + startI;  
-							sJ = rand() % 13 + startJ;
-						} 
-						while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
-						if(fishyWorld[i][j] >= 20)
-						{
-							int ransF = rand() %3; //3 potential fishes, random number to 3
-							if(ransF <= 2) //spawn a fish
-							{ //If the number is less than or equal to 2 then spawn in a fish
-								ransF += 53; //fish spawn starts at 53
-								fishyWorld[sI][sJ] = ransF; //spawn in a fish
-							}
-							fishyClock.restart();
-						}
-					}
 
+		window.draw(gems);
+		Arial.setString("Gems: " + to_string(gemsNo));
+		window.draw(Arial);
 		ship_1.setPosition(posBoat.x*64+32, posBoat.y*64-32);
 		//cout<<posBoat.y<<'\n';
 		window.draw(ship_1);
