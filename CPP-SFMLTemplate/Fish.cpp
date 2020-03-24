@@ -1,15 +1,15 @@
 #include "SFML\Graphics.hpp"
 #include <iostream>
 #include "Fish.h"
-#include <fstream>
 
 //Compiler Directives
 using namespace std;
 
 bool fishSpawn = false;
 
-Fish::Fish(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sardine, sf::Sprite &trout, sf::Sprite &clownFish)
+Fish::Fish()
 {	
+	
 }
 
 Fish::~Fish(void)

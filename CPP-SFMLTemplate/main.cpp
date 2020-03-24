@@ -17,9 +17,6 @@ LoadAssets loadAssets;
 
 Fish fish;
 
-void Currency ();
-void fishSpawner();
-
 bool canMove(int tileType)
 {
 	cout<<tileType;
