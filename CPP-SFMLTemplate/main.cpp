@@ -32,13 +32,6 @@ void spawnTiles(int tileType, int tilePositionX, int tilePositionY, Sprite tileT
 	window.draw(terrian);
 }
 
-void spawnFish(int fishType, int fishPositionX, int fishPositionY, Sprite fishTypes[3], int startJ, int startI)
-{
-	Sprite fish = fishTypes[fishType];
-	fish.setPosition((fishPositionX-startJ)*64, (fishPositionY-startI)*64);
-	window.draw(fish);
-}
-
 void inputs (Sprite &ship_1, Vector2i &posBoat, int &startI, int &startJ, int worldWidth, int worldHeight, int fishyWorld[40][50])
 {
 	bool W = false, S = false, A = false, D = false;
@@ -179,9 +172,10 @@ int main()
 	//Event Variables
 	Event event;
 
-
 	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems;
 	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems);
+
+	
 
 	//RectangleShape fishyBoat;
 	//fishyBoat.setSize(Vector2f(64, 64));
@@ -272,7 +266,16 @@ int main()
 				{
 					water_4.setPosition((j-startJ)*64, (i-startI)*64);
 					window.draw(water_4);
-					spawnFish(fishyWorld[i][j] - 53,j,i, fishType, startJ, startI);
+
+					//sardine.setPosition((j-startJ)*64, (i-startI)*64);
+					//window.draw(sardine);
+					//trout.setPosition((j-startJ)*64, (i-startI)*64);
+					//window.draw(trout);
+					clownFish.setPosition((j-startJ)*64, (i-startI)*64);
+					window.draw(clownFish);
+
+					fish.spawnFish(- 53, j, i, fishType, startJ, startI, window);
+					fish.fishSpawner(window, water_4, sardine, trout, clownFish);
 					noFishes++;
 				} 
 				else if (fishyWorld[i][j] == 60)

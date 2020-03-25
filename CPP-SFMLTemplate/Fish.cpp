@@ -5,8 +5,6 @@
 //Compiler Directives
 using namespace std;
 
-bool fishSpawn = false;
-
 Fish::Fish()
 {	
 	
@@ -16,14 +14,14 @@ Fish::~Fish(void)
 {
 }
 
-void spawnFish(int fishType, int fishPositionX, int fishPositionY, sf::Sprite fishTypes[3], int startJ, int startI, sf::RenderWindow &window)
+void Fish::spawnFish(int fishType, int fishPositionX, int fishPositionY, sf::Sprite fishTypes[3], int startJ, int startI, sf::RenderWindow &window)
 {
 	sf::Sprite fish = fishTypes[fishType];
 	fish.setPosition((fishPositionX-startJ)*64, (fishPositionY-startI)*64);
-	window.draw(fish);
+	//window.draw(fish);
 }
 
-void fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sardine, sf::Sprite &trout, sf::Sprite &clownFish)
+void Fish::fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sardine, sf::Sprite &trout, sf::Sprite &clownFish)
 {
 	//Clock Variables
 	sf::Clock fishyClock;
@@ -37,8 +35,7 @@ void fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sard
 	int fStartJ = 0;
 	
 	int fNoFishes = 0;
-	bool fishSpawn = true;
-	std::cout << fishSpawn << std::endl;
+
 
 	sf::Sprite fishType[3] = {sardine, trout, clownFish};
 
@@ -67,7 +64,7 @@ void fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sard
 				{
 					water_4.setPosition((j-fStartJ)*64, (i-fStartI)*64);
 					window.draw(water_4);
-					spawnFish(fishyWorld[i][j] - 53,j,i, fishType, fStartJ, fStartI, window);
+					//spawnFish(fishyWorld[i][j] - 53,j,i, fishType, fStartJ, fStartI, window);
 					noFishes++;
 				} 
 			}
