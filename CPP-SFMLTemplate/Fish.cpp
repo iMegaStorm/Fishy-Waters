@@ -5,23 +5,23 @@
 //Compiler Directives
 using namespace std;
 
+
+
 Fish::Fish()
 {	
-	
+	sardine = loadAssets.LoadSpriteFromTexture("Assets/", "Fish1", "png");
+	trout = loadAssets.LoadSpriteFromTexture("Assets/", "Fish2", "png");
+	clownFish = loadAssets.LoadSpriteFromTexture("Assets/", "Fish3", "png");
+	water_4 = loadAssets.LoadSpriteFromTexture("Assets/", "Tiles_004", "png");
 }
 
 Fish::~Fish(void)
 {
 }
 
-void Fish::spawnFish(int fishType, int fishPositionX, int fishPositionY, sf::Sprite fishTypes[3], int startJ, int startI, sf::RenderWindow &window)
-{
-	sf::Sprite fish = fishTypes[fishType];
-	fish.setPosition((fishPositionX-startJ)*64, (fishPositionY-startI)*64);
-	//window.draw(fish);
-}
 
-void Fish::fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite &sardine, sf::Sprite &trout, sf::Sprite &clownFish)
+
+void Fish::fishSpawner(sf::RenderWindow &window)
 {
 	//Clock Variables
 	sf::Clock fishyClock;
@@ -31,13 +31,11 @@ void Fish::fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite
 	int worldHeight = 40; //World Height
 
 	//Starting position
-	int fStartI = 0;
-	int fStartJ = 0;
+	int startI = 0;
+	int startJ = 0;
 	
-	int fNoFishes = 0;
+	int NoFishes = 0;
 
-
-	sf::Sprite fishType[3] = {sardine, trout, clownFish};
 
 	int i, j;
 	srand(time(NULL));
@@ -55,49 +53,42 @@ void Fish::fishSpawner(sf::RenderWindow &window, sf::Sprite &water_4, sf::Sprite
 			}
 		}
 	}
-		int noFishes = 0;
-		for(i = fStartI; i < fStartI + 9; i++)
-		{
-			for(j = fStartJ; j < fStartJ + 13; j++)
-			{
-				if(fishyWorld[i][j] == 55 || fishyWorld[i][j] == 53 || fishyWorld[i][j] == 54)
-				{
-					water_4.setPosition((j-fStartJ)*64, (i-fStartI)*64);
-					window.draw(water_4);
-					//spawnFish(fishyWorld[i][j] - 53,j,i, fishType, fStartJ, fStartI, window);
-					noFishes++;
-				} 
-			}
-		}
 
-	//getting the seconds
-	int sec = (int) fishyClock.getElapsedTime().asSeconds();
-	//add a row at every secToAdd seconds
-	int secToAdd = 3;
-	//adding a row only if the game started
-	srand(time(NULL));
-	if(sec % secToAdd == secToAdd - 1 && fNoFishes < 10)
-	{
-		int sI; //x co-ordinate
-		int sJ; //y co-ordinate
-		do 
-		{
-			sI = rand() % 9 + fStartI;  
-			sJ = rand() % 13 + fStartJ;
-		} 
-		while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
-		if(fishyWorld[i][j] >= 20)
-		{
-			int ransF = rand() %3; //3 potential fishes, random number to 3
-			if(ransF <= 2) //spawn a fish
-			{ //If the number is less than or equal to 2 then spawn in a fish
-				ransF += 53; //fish spawn starts at 53
-				fishyWorld[sI][sJ] = ransF; //spawn in a fish
-			}
-			fishyClock.restart();
-			
-		}
-	}
+	////getting the seconds
+	//int sec = (int) fishyClock.getElapsedTime().asSeconds();
+	////add a row at every secToAdd seconds
+	//int secToAdd = 5;
+	////adding a row only if the game started
+	//srand(time(NULL));
+	//if(sec % secToAdd == secToAdd - 1 && NoFishes < 10)
+	//{
+	//	int sI; //x co-ordinate
+	//	int sJ; //y co-ordinate
+	//	do 
+	//	{
+	//		sI = rand() % 9 + startI;  
+	//		sJ = rand() % 13 + startJ;
+	//	} 
+	//	while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
+	//	if(fishyWorld[i][j] >= 20)
+	//	{
+	//		int ransF = rand() %3; //3 potential fishes, random number to 3
+	//		if(ransF <= 2) //spawn a fish
+	//		{ //If the number is less than or equal to 2 then spawn in a fish
+	//			ransF += 53; //fish spawn starts at 53
+	//			fishyWorld[sI][sJ] = ransF; //spawn in a fish
+	//		}
+	//		fishyClock.restart();
+	//		
+	//	}
+	//}
+
 }
 
-
+void Fish::spawnFish(int fishNo, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window)
+{
+	sf::Sprite fishType[3] = {sardine, trout, clownFish};
+	sf::Sprite fish = fishType[fishNo];
+	fish.setPosition((fishPositionX-startJ)*64, (fishPositionY-startI)*64);
+	window.draw(fish);
+}

@@ -1,9 +1,8 @@
-//updated on 19/02/2020
+//updated on 25/03/2020
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include<fstream>
-#include "loadAssets.h"
 #include "Player.h"
 #include "Fish.h"
 
@@ -108,7 +107,7 @@ void gameAssets(Sprite &water_0, Sprite &water_1, Sprite &water_2, Sprite &water
 Sprite &water_8, Sprite &water_9, Sprite &water_10, Sprite &water_11, Sprite &water_12, Sprite &water_13, Sprite &water_14, Sprite &water_15,
 Sprite &water_16, Sprite &water_17, Sprite &water_18, Sprite &water_19, Sprite &water_20, Sprite &grass_21, Sprite &grass_22, Sprite &grass_23, 
 Sprite &grass_24,  Sprite &grass_25, Sprite &grass_26, Sprite &grass_27, Sprite &grass_28, Sprite &grass_29, Sprite &grass_30, Sprite &grass_31,
-Sprite &grass_32, Sprite &grass_33, Sprite &ship_1, Sprite &pirateShip, Sprite &blockade, Sprite &sardine, Sprite &trout, Sprite &clownFish, Sprite &shop,
+Sprite &grass_32, Sprite &grass_33, Sprite &ship_1, Sprite &pirateShip, Sprite &blockade, Sprite &shop,
 Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems)
 {
 	water_0 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_000", "png");
@@ -156,9 +155,9 @@ Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems)
 	blockadeRight = loadAssets.LoadSpriteFromTexture("Assets/", "BlockadeRight", "png");
 	blockadeLeft = loadAssets.LoadSpriteFromTexture("Assets/", "BlockadeLeft", "png");
 
-	sardine = loadAssets.LoadSpriteFromTexture("Assets/", "Fish1", "png");
-	trout = loadAssets.LoadSpriteFromTexture("Assets/", "Fish2", "png");
-	clownFish = loadAssets.LoadSpriteFromTexture("Assets/", "Fish3", "png");
+	//sardine = loadAssets.LoadSpriteFromTexture("Assets/", "Fish1", "png");
+	//trout = loadAssets.LoadSpriteFromTexture("Assets/", "Fish2", "png");
+	//clownFish = loadAssets.LoadSpriteFromTexture("Assets/", "Fish3", "png");
 
 	shop = loadAssets.LoadSpriteFromTexture("Assets/", "Shop", "png");
 
@@ -172,8 +171,8 @@ int main()
 	//Event Variables
 	Event event;
 
-	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems;
-	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems);
+	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, shop, blockadeRight, blockadeLeft, gems;
+	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, shop, blockadeRight, blockadeLeft, gems);
 
 	
 
@@ -188,6 +187,11 @@ int main()
 	//Starting position
 	int startI = 0;
 	int startJ = 0;
+	
+	int NoFishes = 0;
+
+	//Clock Variables
+	sf::Clock fishyClock;
 	
 	Vector2i posBoat (0, 3); //Setting position of the boat
 	
@@ -239,7 +243,7 @@ int main()
 	grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, blockadeRight, blockadeLeft	
 	};
 
-	Sprite fishType[3] = {sardine, trout, clownFish};
+//	Sprite fishType[3] = {sardine, trout, clownFish};
 
 	while (window.isOpen()) //The Game Window Loop
 	{
@@ -257,6 +261,36 @@ int main()
 		}
 		window.clear(sf::Color(100,100,100));
 
+	//getting the seconds
+	int sec = (int) fishyClock.getElapsedTime().asSeconds();
+	//add a row at every secToAdd seconds
+	int secToAdd = 5;
+	//adding a row only if the game started
+	srand(time(NULL));
+	if(sec % secToAdd == secToAdd - 1 && NoFishes < 10)
+	{
+		int sI; //x co-ordinate
+		int sJ; //y co-ordinate
+		do 
+		{
+			sI = rand() % 9 + startI;  
+			sJ = rand() % 13 + startJ;
+		} 
+		while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
+		if(fishyWorld[i][j] >= 20)
+		{
+			int ransF = rand() %3; //3 potential fishes, random number to 3
+			if(ransF <= 2) //spawn a fish
+			{ //If the number is less than or equal to 2 then spawn in a fish
+				ransF += 53; //fish spawn starts at 53
+				fishyWorld[sI][sJ] = ransF; //spawn in a fish
+			}
+			fishyClock.restart();
+			
+		}
+	}
+
+
 		int noFishes = 0;
 		for(i = startI; i < startI + 9; i++)
 		{
@@ -264,19 +298,20 @@ int main()
 			{
 				if(fishyWorld[i][j] == 55 || fishyWorld[i][j] == 53 || fishyWorld[i][j] == 54)
 				{
-					water_4.setPosition((j-startJ)*64, (i-startI)*64);
-					window.draw(water_4);
+				//	water_4.setPosition((j-startJ)*64, (i-startI)*64);
+				//	window.draw(water_4);
 
-					//sardine.setPosition((j-startJ)*64, (i-startI)*64);
-					//window.draw(sardine);
-					//trout.setPosition((j-startJ)*64, (i-startI)*64);
-					//window.draw(trout);
-					clownFish.setPosition((j-startJ)*64, (i-startI)*64);
-					window.draw(clownFish);
+				//	sardine.setPosition((j-startJ)*64, (i-startI)*64);
+				//	window.draw(sardine);
+				///*	trout.setPosition((j-startJ)*64, (i-startI)*64);
+				//	window.draw(trout);
+				//	clownFish.setPosition((j-startJ)*64, (i-startI)*64);
+				//	window.draw(clownFish);*/
 
-					fish.spawnFish(- 53, j, i, fishType, startJ, startI, window);
-					fish.fishSpawner(window, water_4, sardine, trout, clownFish);
-					noFishes++;
+				//	
+					fish.fishSpawner(window);
+					fish.spawnFish(-53, j, i, startJ, startI, window);
+				//	noFishes++;
 				} 
 				else if (fishyWorld[i][j] == 60)
 				{
