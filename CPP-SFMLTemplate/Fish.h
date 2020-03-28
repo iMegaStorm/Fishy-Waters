@@ -1,17 +1,12 @@
+#pragma once
 #include "SFML\Graphics.hpp"
 #include <iostream>
-#include "loadAssets.h"
-
-
-
-
 
 class Fish
 {
 public:
 	int value;
 private:
-	LoadAssets loadAssets;
 	sf::Sprite sardine, trout, clownFish, water_4;
 
 public:

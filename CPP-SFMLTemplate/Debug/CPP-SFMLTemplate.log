@@ -1,26 +1,36 @@
-﻿Build started 25/03/2020 15:32:33.
-     1>Project "C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" on node 2 (Build target(s)).
+﻿Build started 28/03/2020 18:22:24.
+     1>Project "C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Fish.cpp Player.cpp main.cpp
          main.cpp
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(30): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(221): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(269): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(318): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(319): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(325): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(331): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(338): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(340): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\luke\google drive\uni\c++ - video games architecture & optimisation\assignment 2\fishy-waters-master\fishy-waters-master\cpp-sfmltemplate\main.cpp(357): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(23): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(146): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(204): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(210): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(216): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(222): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(236): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(238): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(257): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(284): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(289): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(290): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\main.cpp(291): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Player.cpp
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\player.cpp(11): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         Fish.cpp
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\fish.cpp(37): warning C4101: 'i' : unreferenced local variable
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\fish.cpp(26): warning C4101: 'fishyWorld' : unreferenced local variable
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\fish.cpp(37): warning C4101: 'j' : unreferenced local variable
+     1>c:\users\lukej\onedrive\documents\github\fishy-waters\cpp-sfmltemplate\fish.cpp(60): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\Debug\Fishy Waters.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\lib" "sfml-system-d.lib" "sfml-graphics-d.lib" "sfml-audio-d.lib" "sfml-network-d.lib" "sfml-window-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\Debug\Fishy Waters.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\Debug\Fishy Waters.lib" /MACHINE:X86 Debug\Fish.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\Debug\Fishy Waters.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\lib" "sfml-system-d.lib" "sfml-graphics-d.lib" "sfml-audio-d.lib" "sfml-network-d.lib" "sfml-window-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\Debug\Fishy Waters.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\Debug\Fishy Waters.lib" /MACHINE:X86 Debug\Fish.obj
          Debug\main.obj
          Debug\Player.obj
-     1>main.obj : error LNK2005: "public: class sf::Sprite __thiscall LoadAssets::LoadSpriteFromTexture(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?LoadSpriteFromTexture@LoadAssets@@QAE?AVSprite@sf@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z) already defined in Fish.obj
-     1>C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\Debug\Fishy Waters.exe : fatal error LNK1169: one or more multiply defined symbols found
-     1>Done Building Project "C:\Users\Luke\Google Drive\Uni\C++ - Video Games Architecture & Optimisation\Assignment 2\Fishy-Waters-master\Fishy-Waters-master\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" (Build target(s)) -- FAILED.
+         CPP-SFMLTemplate.vcxproj -> C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\Debug\Fishy Waters.exe
+     1>Done Building Project "C:\Users\lukej\OneDrive\Documents\GitHub\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:03.23
+Time Elapsed 00:00:07.36
