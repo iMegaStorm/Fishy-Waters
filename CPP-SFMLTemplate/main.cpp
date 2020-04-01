@@ -1,4 +1,4 @@
-//updated on 19/02/2020
+//updated on 30/03/2020
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -6,7 +6,9 @@
 #include "loadAssets.h"
 #include "Player.h"
 #include "Fish.h"
-
+#include "Enemies.h"
+#include "CannonBall.h"
+#include <vector>
 
 //Compiler Directives
 using namespace std;
@@ -15,9 +17,28 @@ RenderWindow window(VideoMode(832, 576), "Fishy Waters"); // 13 squares wide, 9 
 
 LoadAssets loadAssets;
 Player player;
+Enemies enemyShip;
 Fish fish;
+
+//Game Screen Variables
+	//Assigns a value for each screen
+const int GAME_MENU_SCREEN = 0; //Main game screen
+const int INSTRUCTIONS_MENU_SCREEN = 1; //Instructions Menu screen
+const int LEVEL_1_SCREEN = 2; // Level 1 of the game
+const int LEVEL_2_SCREEN = 3;
+const int GAME_OVER_SCREEN = 4; //Game Over screen
+int CURRENT_SCREEN = GAME_MENU_SCREEN; //Using current screen in order to switch to another screen
+
+
+const int RED_SHIP = 1;
+const int BLUE_SHIP = 2;
+const int GREEN_SHIP = 3;
+int PLAYER_SHIP = RED_SHIP;
+
+
+Vector2i mouseCursorLocation(0,0);
  
-void spawnTiles(int tileType, int tilePositionX, int tilePositionY, Sprite tileTypes[36], int startJ, int startI)
+void spawnTiles(int tileType, int tilePositionX, int tilePositionY, Sprite tileTypes[50], int startJ, int startI)
 {
 	Sprite terrian = tileTypes[tileType];
 	terrian.setPosition((tilePositionX-startJ)*64, (tilePositionY-startI)*64);
@@ -28,9 +49,10 @@ void gameAssets(Sprite &water_0, Sprite &water_1, Sprite &water_2, Sprite &water
 Sprite &water_8, Sprite &water_9, Sprite &water_10, Sprite &water_11, Sprite &water_12, Sprite &water_13, Sprite &water_14, Sprite &water_15,
 Sprite &water_16, Sprite &water_17, Sprite &water_18, Sprite &water_19, Sprite &water_20, Sprite &grass_21, Sprite &grass_22, Sprite &grass_23, 
 Sprite &grass_24,  Sprite &grass_25, Sprite &grass_26, Sprite &grass_27, Sprite &grass_28, Sprite &grass_29, Sprite &grass_30, Sprite &grass_31,
-Sprite &grass_32, Sprite &grass_33, Sprite &ship_1, Sprite &pirateShip, Sprite &blockade, Sprite &sardine, Sprite &trout, Sprite &clownFish, Sprite &shop,
-Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems, Sprite &shopPanel, Sprite &toll, Sprite &fishCaught, Sprite &fishFled, Sprite &fullInventory)
+Sprite &grass_32, Sprite &grass_33, Sprite &bush_45, Sprite &tree_46, Sprite &tree_47, Sprite &tree_48, Sprite &tree_49, Sprite &rock_50, Sprite &shipRed, Sprite &shipBlue, Sprite &shipGreen, Sprite &pirateShip, Sprite &cannonBall, Sprite &blockade, Sprite &gameScreenBackground, Sprite &instructionsMenuBackground, Sprite &fishyWorldTitle, Sprite &instructionsTitle, Sprite &selectBoat, Sprite &sardine, Sprite &tuna, Sprite &pufferFish, Sprite &trout, Sprite &clownFish, Sprite &shop,
+Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems, Sprite &shopPanel, Sprite &buyButton, Sprite &buy5Button, Sprite &exitShopButton, Sprite &sellFishesButton, Sprite &Shipwreck100,  Sprite &Shipwreck200, Sprite &Shipwreck300, Sprite &Shipwreck400, Sprite &Shipwreck500, Sprite &fishCaught, Sprite &fishFled, Sprite &fullInventory, Sprite &playButton, Sprite &exitButton)
 {
+	//Environment Tiles
 	water_0 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_000", "png");
 	water_1 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_001", "png");
 	water_2 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_002", "png");
@@ -65,40 +87,99 @@ Sprite &blockadeLeft, Sprite &blockadeRight, Sprite &gems, Sprite &shopPanel, Sp
 	grass_31 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_031", "png");
 	grass_32 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_032", "png");
 	grass_33 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_033", "png");
+	bush_45 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_045", "png");
+	tree_46 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_046", "png");
+	tree_47 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_047", "png");
+	tree_48 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_048", "png");
+	tree_49 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_049", "png");
+	rock_50 = loadAssets.LoadSpriteFromTexture("Assets/Tiles/", "Tiles_050", "png");
 
-	ship_1 = loadAssets.LoadSpriteFromTexture("Assets/", "ship_1", "png");
-	ship_1.setOrigin(64.0/2, 64.0/2);
-	ship_1.setRotation(270);
+	//CannonBall sprite
+	cannonBall = loadAssets.LoadSpriteFromTexture("Assets/Ships/", "cannonBall", "png");
+	cannonBall.setOrigin(5, 5);
 
-	pirateShip = loadAssets.LoadSpriteFromTexture("Assets/", "PirateShip", "png");
+	//Player sprites
+	shipRed = loadAssets.LoadSpriteFromTexture("Assets/Ships/", "shipRed", "png");
+	shipRed.setOrigin(64.0/2, 64.0/2);
 
-	//blockade = loadAssets.LoadSpriteFromTexture("Assets/", "Blockade", "png");
+	shipBlue = loadAssets.LoadSpriteFromTexture("Assets/Ships/", "shipBlue", "png");
+	shipBlue.setOrigin(64.0/2, 64.0/2);
+	
+	shipGreen = loadAssets.LoadSpriteFromTexture("Assets/Ships/", "shipGreen", "png");
+	shipGreen.setOrigin(64.0/2, 64.0/2);
+	
+
+	//Enemy sprites
+	pirateShip = loadAssets.LoadSpriteFromTexture("Assets/Ships/", "PirateShip", "png");
+	//pirateShip.setOrigin(64/2, 64/2);
+
+	//Blockade sprites 
 	blockadeRight = loadAssets.LoadSpriteFromTexture("Assets/", "BlockadeRight", "png");
 	blockadeLeft = loadAssets.LoadSpriteFromTexture("Assets/", "BlockadeLeft", "png");
 
-	sardine = loadAssets.LoadSpriteFromTexture("Assets/", "Fish1", "png");
-	trout = loadAssets.LoadSpriteFromTexture("Assets/", "Fish2", "png");
-	clownFish = loadAssets.LoadSpriteFromTexture("Assets/", "Fish3", "png");
+	//Fish sprites
+	sardine = loadAssets.LoadSpriteFromTexture("Assets/", "Sardine", "png");
+	tuna = loadAssets.LoadSpriteFromTexture("Assets/", "Tuna", "png");
+	pufferFish = loadAssets.LoadSpriteFromTexture("Assets/", "Pufferfish", "png");
+	trout = loadAssets.LoadSpriteFromTexture("Assets/", "Trout", "png");
+	clownFish = loadAssets.LoadSpriteFromTexture("Assets/", "ClownFish", "png");
 
 	shop = loadAssets.LoadSpriteFromTexture("Assets/", "Shop", "png");
 
+	//UI and text
+	gameScreenBackground = loadAssets.LoadSpriteFromTexture("Assets/", "gameScreenBackground", "jpg");
+	gameScreenBackground.setOrigin(1366/2, 768/2);
+	gameScreenBackground.setPosition(832/2, 576/2);
+	fishyWorldTitle = loadAssets.LoadSpriteFromTexture("Assets/", "FishyWorldTitle", "png");
+	fishyWorldTitle.setOrigin(457/2, 75/2);
+	fishyWorldTitle.setPosition(832/2, 376/2);
+	instructionsMenuBackground = loadAssets.LoadSpriteFromTexture("Assets/", "InstructionsMenuBackground", "jpg");
+	instructionsMenuBackground.setOrigin(2560/2, 1600/2);
+	instructionsMenuBackground.setPosition(832/2, 576/2);
+	instructionsMenuBackground.setScale(0.4,0.4);
+	instructionsTitle = loadAssets.LoadSpriteFromTexture("Assets/", "InstructionsTitle", "png");
+	instructionsTitle.setOrigin(466/2, 75/2);
+	instructionsTitle.setPosition(832/2, 200/2);
+	selectBoat = loadAssets.LoadSpriteFromTexture("Assets/", "SelectBoat", "png");
+	selectBoat.setOrigin(361/2, 43/2);
+	selectBoat.setPosition(832/2, 400);
 	gems = loadAssets.LoadSpriteFromTexture("Assets/", "Gem", "png");
-
 	shopPanel = loadAssets.LoadSpriteFromTexture("Assets/", "ShopPanel", "png");
 	shopPanel.setPosition(1, 38);
-
-
-	toll  = loadAssets.LoadSpriteFromTexture("Assets/", "Toll", "png");
-	toll.setOrigin(197/2, 37/2);
-	toll.setPosition(416, 220);
-	
+	exitShopButton = loadAssets.LoadSpriteFromTexture("Assets/", "ExitShopButton", "png");
+	exitShopButton.setOrigin(38/2, 36/2);
+	exitShopButton.setPosition(364, 38);
+	sellFishesButton = loadAssets.LoadSpriteFromTexture("Assets/", "SellFishesButton", "png");
+	sellFishesButton.setOrigin(38/2, 36/2);
+	sellFishesButton.setPosition(310, 480);
+	buyButton = loadAssets.LoadSpriteFromTexture("Assets/", "BuyButton", "png");
+	buyButton.setOrigin(132/2, 68/2);
+	buyButton.setPosition(92, 313);
+	buy5Button = loadAssets.LoadSpriteFromTexture("Assets/", "Buy5Button", "png");
+	buy5Button.setOrigin(132/2, 68/2);
+	buy5Button.setPosition(225, 313);
+	Shipwreck100  = loadAssets.LoadSpriteFromTexture("Assets/", "Shipwreck100", "png");
+	Shipwreck100.setOrigin(323/2, 29/2);
+	Shipwreck200  = loadAssets.LoadSpriteFromTexture("Assets/", "Shipwreck200", "png");
+	Shipwreck200.setOrigin(324/2, 29/2);
+	Shipwreck300  = loadAssets.LoadSpriteFromTexture("Assets/", "Shipwreck300", "png");
+	Shipwreck300.setOrigin(323/2, 29/2);
+	Shipwreck400  = loadAssets.LoadSpriteFromTexture("Assets/", "Shipwreck400", "png");
+	Shipwreck400.setOrigin(324/2, 29/2);
+	Shipwreck500  = loadAssets.LoadSpriteFromTexture("Assets/", "Shipwreck500", "png");
+	Shipwreck500.setOrigin(324/2, 29/2);
 	fullInventory = loadAssets.LoadSpriteFromTexture("Assets/", "FullInventory", "png");
 	fullInventory.setOrigin(52/2, 19/2);
 	fishCaught  = loadAssets.LoadSpriteFromTexture("Assets/", "FishCaught", "png");
 	fishCaught.setOrigin(133/2, 24/2);
 	fishFled  = loadAssets.LoadSpriteFromTexture("Assets/", "FishFled", "png");
 	fishFled.setOrigin(99/2, 19/2);
-
+	playButton = loadAssets.LoadSpriteFromTexture("Assets/", "PlayButton", "png");
+	playButton.setOrigin(173/2,66/2);
+	playButton.setPosition(400, 400);
+	exitButton = loadAssets.LoadSpriteFromTexture("Assets/", "ExitButton", "png");
+	exitButton.setOrigin(146/2, 66/2);
+	exitButton.setPosition(400, 500);
 
 }
 
@@ -108,21 +189,27 @@ int main()
 	//Event Variables
 	Event event;
 
-	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems, shopPanel, toll, fishCaught, fishFled, fullInventory;
-	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, ship_1, pirateShip, blockade, sardine, trout, clownFish, shop, blockadeRight, blockadeLeft, gems, shopPanel, toll, fishCaught, fishFled, fullInventory);
+	Sprite water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, bush_45, tree_46, tree_47, tree_48, tree_49, rock_50, shipRed, shipBlue, shipGreen, pirateShip, cannonBall , blockade, gameScreenBackground, instructionsMenuBackground, fishyWorldTitle, instructionsTitle, selectedBoat, sardine, tuna, pufferFish, trout, clownFish, shop, blockadeRight, blockadeLeft, gems, shopPanel, buyButton, buy5Button, exitShopButton, sellFishesButton, Shipwreck100, Shipwreck200, Shipwreck300, Shipwreck400, Shipwreck500, fishCaught, fishFled, fullInventory, playButton, exitButton;
+	gameAssets(water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, bush_45, tree_46, tree_47, tree_48, tree_49, rock_50, shipRed, shipBlue, shipGreen, pirateShip, cannonBall, blockade, gameScreenBackground, instructionsMenuBackground, fishyWorldTitle, instructionsTitle, selectedBoat, sardine, tuna, pufferFish, trout, clownFish, shop, blockadeRight, blockadeLeft, gems, shopPanel, buyButton, buy5Button, exitShopButton, sellFishesButton, Shipwreck100, Shipwreck200, Shipwreck300, Shipwreck400, Shipwreck500, fishCaught, fishFled, fullInventory, playButton, exitButton);
 
 	int fishyWorld[40][50]; //Declaring my array
 	int worldWidth = 50; //world Width
 	int worldHeight = 40; //World Height
 
+	Vector2i posBoat  (0, 2); //Setting position of the boat
+	Vector2i posEnemy (99, 99); //Setting position of the pirate ship
+
 	//Starting position
-	int startI = 0;
 	int startJ = 0;
+	int startI = 0;
+	
+
+	int pStartJ = 20;
+	int pStartI = 6;
+	
 
 	//Clock Variables
 	sf::Clock fishyClock;
-	
-	Vector2i posBoat (0, 3); //Setting position of the boat
 	
 	window.setFramerateLimit(60);
 
@@ -139,6 +226,12 @@ int main()
 	Arial.setFont(ArialFont);
 	Arial.setPosition(ArialLocation.x, ArialLocation.y);
 	Arial.setString("Gems: ");
+
+	sf::Text sellPrice;
+	sellPrice.setScale(sf::Vector2f(ArialCurrentScaleX,ArialCurrentScaleY));
+	sellPrice.setFont(ArialFont);
+	sellPrice.setColor(Color(0,0,0));
+	sellPrice.setPosition(185, 466);
 	
 	ifstream fishyMap("Assets/Map.txt"); //Reading map
 
@@ -152,27 +245,35 @@ int main()
 			if (fishyWorld[i][j] == 04)
 			{
 				int ransE = rand() %37; //random number of 37 as its a prime number
-				if(ransE <= 2) { //If the number is less than or equal to 10 then spawn in a fish
+				if(ransE <= 4) { //If the number is less than or equal to 4 then spawn in a fish
 					ransE += 53; //fish spawn starts at 53
 					fishyWorld[i][j] = ransE; //spawn in a fish
 				}
 			}
+			else if (fishyWorld[i][j] == 99)
+			{
+				posEnemy.x = j;
+				posEnemy.y = i;
+			}
 		}
 	}
 	
-	Sprite tileType[36] = 
+	Sprite tileType[50] = 
 	{
-	water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9,
-	water_10, water_11, water_12, water_13, water_14, water_15, water_16, water_17, water_18,
-	water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, 
-	grass_28, grass_29, grass_30, grass_31, grass_32, grass_33, blockadeRight, blockadeLeft	
+	water_0, water_1, water_2, water_3, water_4, water_5, water_6, water_7, water_8, water_9, water_10, water_11, water_12, water_13, water_14, water_15, 
+	water_16, water_17, water_18, water_19, water_20, grass_21, grass_22, grass_23, grass_24, grass_25, grass_26, grass_27, grass_28, grass_29, grass_30, 
+	grass_31, grass_32, grass_33, blockadeRight, blockadeLeft, blockadeRight, blockadeLeft,blockadeRight, blockadeLeft,blockadeRight, blockadeLeft,blockadeRight, blockadeLeft,
+	bush_45, tree_46, tree_47, tree_48, tree_49, rock_50
 	};
 
-	Sprite fishType[3] = {sardine, trout, clownFish};
+	Sprite shipType[3] = {shipRed, shipBlue, shipGreen};
+	Sprite fishType[5] = {sardine, tuna, pufferFish, trout, clownFish};
+
 
 	while (window.isOpen()) //The Game Window Loop
 	{
-
+		
+		//cout << fishyWorld[posBoat.y-1 + startI][posBoat.x + startJ] << endl;
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) //Checks to see if the window is closed and then executes the code
@@ -180,24 +281,114 @@ int main()
 				window.close(); //closes the window
 				break;
 			}
-			if(event.type == Event::KeyPressed) 
+			if(event.type == Event::KeyPressed && CURRENT_SCREEN == LEVEL_1_SCREEN) 
 			{
-				player.Inputs(player.gemsNo, ship_1, posBoat, startI, startJ, worldWidth, worldHeight, fishyWorld); //Calls the method from the class player
-			
+				player.Shoot(posEnemy, enemyShip.currentHealth, shipType[0]);
+				player.Inputs(player.gemsNo, shipType, posBoat, startI, startJ, worldWidth, worldHeight, fishyWorld); //Calls the method from the class player
+				enemyShip.EnemyInput(posEnemy, posBoat, pirateShip, startI, startJ, worldWidth, worldHeight, fishyWorld);
 			}
-
+			else if (event.type == Event::MouseMoved) //Mouse Movement
+			{
+				mouseCursorLocation = Mouse::getPosition(window);
+			}
+			else if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == Mouse::Left)
+				{
+					if ((CURRENT_SCREEN == GAME_MENU_SCREEN && mouseCursorLocation.x > playButton.getPosition().x - playButton.getGlobalBounds().width/2) && (mouseCursorLocation.x < (playButton.getPosition().x + playButton.getGlobalBounds().width/2)) && (mouseCursorLocation.y > playButton.getPosition().y - playButton.getGlobalBounds().height/2) && (mouseCursorLocation.y < (playButton.getPosition().y + playButton.getGlobalBounds().height/2)))
+						{
+							CURRENT_SCREEN = INSTRUCTIONS_MENU_SCREEN; //Changes the current screen if you click on the play button
+						}
+					else if ((CURRENT_SCREEN == GAME_MENU_SCREEN && mouseCursorLocation.x > exitButton.getPosition().x - exitButton.getGlobalBounds().width/2) && (mouseCursorLocation.x < (exitButton.getPosition().x + exitButton.getGlobalBounds().width/2)) && (mouseCursorLocation.y > exitButton.getPosition().y - exitButton.getGlobalBounds().height/2) && (mouseCursorLocation.y < (exitButton.getPosition().y + exitButton.getGlobalBounds().height/2)))
+						{
+							window.close(); //Closes the window if you click on the exit button
+						}
+					else if ((CURRENT_SCREEN == INSTRUCTIONS_MENU_SCREEN && mouseCursorLocation.x > shipRed.getPosition().x - shipRed.getGlobalBounds().width/2) && (mouseCursorLocation.x < (shipRed.getPosition().x + shipRed.getGlobalBounds().width/2)) && (mouseCursorLocation.y > shipRed.getPosition().y - shipRed.getGlobalBounds().height/2) && (mouseCursorLocation.y < (shipRed.getPosition().y + shipRed.getGlobalBounds().height/2)))
+					{					
+						PLAYER_SHIP = RED_SHIP;
+						CURRENT_SCREEN = LEVEL_1_SCREEN;
+						shipRed.setRotation(270);
+					}
+					else if ((CURRENT_SCREEN == INSTRUCTIONS_MENU_SCREEN && mouseCursorLocation.x > shipBlue.getPosition().x - shipBlue.getGlobalBounds().width/2) && (mouseCursorLocation.x < (shipBlue.getPosition().x + shipBlue.getGlobalBounds().width/2)) && (mouseCursorLocation.y > shipBlue.getPosition().y - shipBlue.getGlobalBounds().height/2) && (mouseCursorLocation.y < (shipBlue.getPosition().y + shipBlue.getGlobalBounds().height/2)))
+					{
+						PLAYER_SHIP = BLUE_SHIP;
+						CURRENT_SCREEN = LEVEL_1_SCREEN;
+						shipBlue.setRotation(270);
+					}
+					else if ((CURRENT_SCREEN == INSTRUCTIONS_MENU_SCREEN && mouseCursorLocation.x > shipGreen.getPosition().x - shipGreen.getGlobalBounds().width/2) && (mouseCursorLocation.x < (shipGreen.getPosition().x + shipGreen.getGlobalBounds().width/2)) && (mouseCursorLocation.y > shipGreen.getPosition().y - shipGreen.getGlobalBounds().height/2) && (mouseCursorLocation.y < (shipGreen.getPosition().y + shipGreen.getGlobalBounds().height/2)))
+					{
+						PLAYER_SHIP = GREEN_SHIP;
+						CURRENT_SCREEN = LEVEL_1_SCREEN;
+						shipGreen.setRotation(270);
+					}
+					else if ((CURRENT_SCREEN == LEVEL_1_SCREEN && fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && player.currentCannonBall < player.maxCannonBall && player.gemsNo >= 50 && mouseCursorLocation.x > buyButton.getPosition().x - buyButton.getGlobalBounds().width/2) && (mouseCursorLocation.x < (buyButton.getPosition().x + buyButton.getGlobalBounds().width/2)) && (mouseCursorLocation.y > buyButton.getPosition().y - buyButton.getGlobalBounds().height/2) && (mouseCursorLocation.y < (buyButton.getPosition().y + buyButton.getGlobalBounds().height/2)))
+					{					
+						player.currentCannonBall++;
+						player.gemsNo -= 50;
+						cout << "1 Cannonball bought" << endl;
+					}
+					else if ((CURRENT_SCREEN == LEVEL_1_SCREEN && fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && player.gemsNo >= 250 && mouseCursorLocation.x > buy5Button.getPosition().x - buy5Button.getGlobalBounds().width/2) && (mouseCursorLocation.x < (buy5Button.getPosition().x + buy5Button.getGlobalBounds().width/2)) && (mouseCursorLocation.y > buy5Button.getPosition().y - buy5Button.getGlobalBounds().height/2) && (mouseCursorLocation.y < (buy5Button.getPosition().y + buy5Button.getGlobalBounds().height/2)))
+					{					
+						if (player.currentCannonBall == 0)
+						{
+							player.currentCannonBall += 5;
+							player.gemsNo -= 250;
+							cout << "5 Cannonball bought" << endl;
+						}
+						else 
+						{
+							cout << "Not enough inventory space" << endl;
+						}
+					}
+					else if ((CURRENT_SCREEN == LEVEL_1_SCREEN && fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && mouseCursorLocation.x > exitShopButton.getPosition().x - exitShopButton.getGlobalBounds().width/2) && (mouseCursorLocation.x < (exitShopButton.getPosition().x + exitShopButton.getGlobalBounds().width/2)) && (mouseCursorLocation.y > exitShopButton.getPosition().y - exitShopButton.getGlobalBounds().height/2) && (mouseCursorLocation.y < (exitShopButton.getPosition().y + exitShopButton.getGlobalBounds().height/2)))
+					{					
+						player.shopActive  = false;
+					}
+					else if ((CURRENT_SCREEN == LEVEL_1_SCREEN && fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && mouseCursorLocation.x > sellFishesButton.getPosition().x - sellFishesButton.getGlobalBounds().width/2) && (mouseCursorLocation.x < (sellFishesButton.getPosition().x + sellFishesButton.getGlobalBounds().width/2)) && (mouseCursorLocation.y > sellFishesButton.getPosition().y - sellFishesButton.getGlobalBounds().height/2) && (mouseCursorLocation.y < (sellFishesButton.getPosition().y + sellFishesButton.getGlobalBounds().height/2)))
+					{					
+						player.gemsNo += player.fishValue; //Sells the fish and gives you gems
+						player.fishValue = 0; //Resets the current fish value
+						player.fishNo = 0; //Resets the number of fish you're holding
+					}
+				}
+			}
 		}
 		window.clear(sf::Color(100,100,100));
+
+		if (CURRENT_SCREEN == GAME_MENU_SCREEN)
+		{
+			window.draw(gameScreenBackground);
+			window.draw(fishyWorldTitle);
+			window.draw(playButton);
+			window.draw(exitButton);
+		}
+		else if (CURRENT_SCREEN == INSTRUCTIONS_MENU_SCREEN)
+		{
+			window.draw(instructionsMenuBackground);
+			window.draw(instructionsTitle);
+			window.draw(selectedBoat);
+			shipRed.setPosition(336, 500);
+			shipBlue.setPosition(416, 500);
+			shipGreen.setPosition(496, 500);
+			shipRed.setScale(1.5,1.5);
+			shipBlue.setScale(1.5,1.5);
+			shipGreen.setScale(1.5,1.5);
+			window.draw(shipRed);
+			window.draw(shipBlue);
+			window.draw(shipGreen);
+		}
+		else if (CURRENT_SCREEN == LEVEL_1_SCREEN)
+		{
 
 		int noFishes = 0;
 		for(i = startI; i < startI + 9; i++)
 		{
 			for(j = startJ; j < startJ + 13; j++)
 			{
-				if(fishyWorld[i][j] == 55 || fishyWorld[i][j] == 53 || fishyWorld[i][j] == 54)
+				if(fishyWorld[i][j] == 55 || fishyWorld[i][j] == 53 || fishyWorld[i][j] == 54 || fishyWorld[i][j] == 56 || fishyWorld[i][j] == 57)
 				{
 					//fish.fishSpawner(window);
-					//fish.spawnFish(-53, j, i, startJ, startI, window);
+					//fish.spawnFish(sardine, tuna, trout, clownFish, pufferFish, -53, j, i, startJ, startI, window);
 				} 
 				if (fishyWorld[i][j] == 53)
 				{
@@ -207,14 +398,26 @@ int main()
 				}
 				else if (fishyWorld[i][j] == 54)
 				{
-					trout.setPosition((j-startJ)*64, (i-startI)*64);
-					window.draw(trout);
+					tuna.setPosition((j-startJ)*64, (i-startI)*64);
+					window.draw(tuna);
 					noFishes++;
 				}
 				else if (fishyWorld[i][j] == 55)
 				{
+					trout.setPosition((j-startJ)*64, (i-startI)*64);
+					window.draw(trout);
+					noFishes++;
+				}
+				else if (fishyWorld[i][j] == 56)
+				{
 					clownFish.setPosition((j-startJ)*64, (i-startI)*64);
 					window.draw(clownFish);
+					noFishes++;
+				}
+				else if (fishyWorld[i][j] == 57)
+				{
+					pufferFish.setPosition((j-startJ)*64, (i-startI)*64);
+					window.draw(pufferFish);
 					noFishes++;
 				}
 				else if (fishyWorld[i][j] == 60)
@@ -222,26 +425,20 @@ int main()
 					shop.setPosition((j-startJ)*64, (i-startI)*64);
 					window.draw(shop);
 				}
-				else if (fishyWorld[i][j] == 34)
-				{
-					spawnTiles(fishyWorld[i][j], j,i, tileType, startJ, startI);
-				}
-				else if (fishyWorld[i][j] == 35)
-				{
-					spawnTiles(fishyWorld[i][j], j,i, tileType, startJ, startI);
-				}
 
 				else if (fishyWorld[i][j] == 99)
 				{
-					water_4.setPosition((j-startJ)*64, (i-startI)*64);
-					window.draw(water_4);
-					pirateShip.setPosition((j-startJ)*64, (i-startI)*64);
+					pirateShip.setPosition((posEnemy.x -startJ)*64, (posEnemy.y -startI)*64);
 					window.draw(pirateShip);
 				}
 				else if (fishyWorld[i][j] >= 21) 
 				{
 					spawnTiles(fishyWorld[i][j], j,i, tileType, startJ, startI); 
 				} 
+				else if ((fishyWorld[posBoat.y-1 + startI][posBoat.x + startJ] == 03 || fishyWorld[posBoat.y-1 + startI][posBoat.x + startJ] == 05) &&  (fishyWorld[38][30] == 03 || fishyWorld[38][31] == 05))
+				{
+					CURRENT_SCREEN = LEVEL_2_SCREEN;
+				}
 				else 
 				{
 					spawnTiles(fishyWorld[i][j], j,i, tileType, startJ, startI); 
@@ -249,13 +446,43 @@ int main()
 			}
 		}
 
+
+		for (CannonBall *Bullet : player.cannonBall)
+		{
+			Sprite cannonBallShot;
+			cannonBallShot = Bullet->GetSprite();
+			cannonBallShot.setPosition((Bullet->BulletPosition.x -startJ)*64, (Bullet->BulletPosition.y -startI)*64);
+			window.draw(cannonBallShot);
+			
+			
+				if(Bullet->BulletPosition.x < Bullet->BulletPositionTarget.x)
+				{
+					Bullet->BulletPosition.x += 1;
+				}
+				else if(Bullet->BulletPosition.x > Bullet->BulletPositionTarget.x)
+				{
+					Bullet->BulletPosition.x -= 1;
+				}
+				else if(Bullet->BulletPosition.y < Bullet->BulletPositionTarget.y)
+				{
+					Bullet->BulletPosition.y += 1;
+				}
+				else if(Bullet->BulletPosition.y > Bullet->BulletPositionTarget.y)
+				{
+					Bullet->BulletPosition.y += 1;
+				}
+
+			
+			//cout << Bullet->BulletPosition.x << " " << Bullet->BulletPosition.y << endl;
+		}
+
 	//getting the seconds
 	int sec = (int) fishyClock.getElapsedTime().asSeconds();
 	//add a row at every secToAdd seconds
-	int secToAdd = 5;
+	int secToAdd = 4;
 	//adding a row only if the game started
 	srand(time(NULL));
-	if(sec % secToAdd == secToAdd - 1 && noFishes < 10)
+	if(sec % secToAdd == secToAdd - 1 && noFishes < 15)
 	{
 		int sI; //x co-ordinate
 		int sJ; //y co-ordinate
@@ -267,7 +494,7 @@ int main()
 		while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
 		if(fishyWorld[i][j] >= 20)
 		{
-			int ransF = rand() %3; //3 potential fishes, random number to 3
+			int ransF = rand() %5; //3 potential fishes, random number to 3
 			if(ransF <= 2) //spawn a fish
 			{ //If the number is less than or equal to 2 then spawn in a fish
 				ransF += 53; //fish spawn starts at 53
@@ -281,17 +508,38 @@ int main()
 		Arial.setString("Gems: " + to_string(player.gemsNo));
 		window.draw(Arial);
 		
-		ship_1.setPosition(posBoat.x*64+32, posBoat.y*64-32);
-		window.draw(ship_1);
-		player.Draw(shopPanel, fishCaught, fishFled, fullInventory, toll, posBoat, startI, startJ, fishyWorld, window);
+			if (PLAYER_SHIP == RED_SHIP)
+			{
+				shipType[0].setPosition(posBoat.x*64+32 +startJ, posBoat.y*64-32 +startI);
+				shipType[0].setScale(1,1);
+				window.draw(shipType[0]);
+			}
+			else if (PLAYER_SHIP == BLUE_SHIP)
+			{
+				shipType[1].setPosition(posBoat.x*64+32, posBoat.y*64-32);
+				shipType[1].setScale(1,1);
+				window.draw(shipType[1]);
+			}
+			else if (PLAYER_SHIP == GREEN_SHIP)
+			{
+				shipType[2].setPosition(posBoat.x*64+32, posBoat.y*64-32);
+				shipType[2].setScale(1,1);
+				window.draw(shipType[2]);
+			}
+			player.Draw(shopPanel, buyButton, buy5Button, exitShopButton, sellFishesButton, fishCaught, fishFled, fullInventory, Shipwreck100, Shipwreck200, Shipwreck300, Shipwreck400, Shipwreck500, posBoat, startI, startJ, fishyWorld, window);
 
-		//Setting the text to be above the boats position
-		fullInventory.setPosition(posBoat.x*64+32, posBoat.y*64);
-		fishCaught.setPosition(posBoat.x*64+32, posBoat.y*64-75); 
-		fishFled.setPosition(posBoat.x*64+32, posBoat.y*64-75); 
-
+			if(fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && player.shopActive)
+			{
+				sellPrice.setString(to_string(player.fishValue));
+				window.draw(sellPrice);
+			}
+		}
+		else if (CURRENT_SCREEN == GAME_OVER_SCREEN)
+		{
+			
+		}
 		window.display();
-
 	}
 	return 0;
 }
+

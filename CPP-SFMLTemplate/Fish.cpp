@@ -53,9 +53,9 @@ void Fish::fishSpawner(sf::RenderWindow &window)
 	//}
 }
 
-void Fish::spawnFish(int fishNo, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window)
+void Fish::spawnFish(sf::Sprite &sardine, sf::Sprite &tuna, sf::Sprite &trout, sf::Sprite &clownFish, sf::Sprite &pufferFish, int fishNo, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window)
 {
-	sf::Sprite fishType[3] = {sardine, trout, clownFish};
+	sf::Sprite fishType[5] = {sardine, tuna, trout, clownFish, pufferFish};
 	sf::Sprite fish = fishType[fishNo];
 	fish.setPosition((fishPositionX-startJ)*64, (fishPositionY-startI)*64);
 	//window.draw(fish);

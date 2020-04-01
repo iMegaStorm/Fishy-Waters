@@ -7,7 +7,7 @@ class Fish
 public:
 	int value;
 private:
-	sf::Sprite sardine, trout, clownFish, water_4;
+	//sf::Sprite sardine, tuna, trout, clownFish, pufferFish, water_4;
 
 public:
 	Fish(	);
@@ -15,7 +15,7 @@ public:
 	
 
 	void fishSpawner(sf::RenderWindow &window);
-	void spawnFish(int fishType, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window);
+	void spawnFish(sf::Sprite &sardine, sf::Sprite &tuna, sf::Sprite &trout, sf::Sprite &clownFish, sf::Sprite &pufferFish, int fishNo, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window);
 	
 };
 
