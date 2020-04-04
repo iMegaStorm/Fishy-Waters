@@ -4,29 +4,90 @@
 #include <cstdlib>
 #include <ctime>
 
+
 Player::Player()
 {
+	currentHealth = 2;
+	maxHealth = 5;
+	currentCannonBall =	maxCannonBall = 10;
+	cannonBallValue = 50;
 	fishNo = 0;
 	fishMax = 5;
 	srand(time(NULL));
-	//gemsNo = 2000;
+	gemsNo = 2000;
 }
 
 Player::~Player(void)
 {
 }
 
+
 bool Player::canMove(int tileType)
 {
 	//std::cout<<tileType;
-	if (tileType <= 20 || tileType == 53 || tileType == 54 || tileType == 55) return true;
+	if (tileType <= 20 || tileType == 90 || tileType == 91 || tileType == 92 || tileType == 93 || tileType == 94) return true;
 
 	return false;
 }
 
-void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, sf::Sprite &shipRed, sf::Sprite &shipGreen, sf::Vector2i &posBoat, int &startI, int &startJ, int worldWidth, int worldHeight, int fishyWorld[40][50])
+void Player::Shoot(sf::Vector2i &posEnemy, int enemyCurrentHealth, sf::Sprite currentShip)
 {
-		int shipModels;
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period) && currentCannonBall > 0  && currentHealth > 0)
+	{ 
+		if (position.x > posEnemy.x -6 && posEnemy.x < position.x +1)
+		{
+			ShootBullets(posEnemy);
+			currentCannonBall--;
+		}
+		else if (position.x > posEnemy.x -6 && posEnemy.x < position.x -1)
+		{
+			ShootBullets(posEnemy);
+			currentCannonBall--;
+		}
+		else if (position.y > posEnemy.y -6 && position.y < posEnemy.y +1)
+		{
+			ShootBullets(posEnemy);
+			currentCannonBall--;
+		}
+		else if (position.y > posEnemy.y -6 && position.y < posEnemy.y -1)
+		{
+			ShootBullets(posEnemy);
+			currentCannonBall--;
+		}
+		else
+		{
+			std::cout << "You can't shoot" << std::endl;
+		}
+		enemy->enemyCurrentHealth--;
+		//currentHealth-=1;
+		std::cout << "Player health: " << currentHealth << std::endl;
+		//std::cout << "Amount of cannon balls: " << currentCannonBall << "/" << maxCannonBall << std::endl;
+		std::cout << "Pirates health: " << enemy->enemyCurrentHealth << "/" << enemy->enemyMaxHealth << std::endl;
+	}
+		
+}
+
+void Player::ShootBullets(sf::Vector2i piratePosition)
+{
+//Local Variables
+
+//Main "ShootBullets()"
+	CannonBall* Bullets = new CannonBall();
+	Bullets -> Init("Assets/ships/cannonBall.png", position , piratePosition);
+	cannonBall.push_back(Bullets);
+	//std::cout << position.x << " " << position.y << std::endl;
+}
+
+void Player::setEnemyClass(Enemies *enemyPirateShip)
+{
+	enemy = enemyPirateShip;
+}
+
+void Player::Inputs(int &gemsNo, sf::Sprite shipType[6], sf::Vector2i &posBoat, int &startI, int &startJ, int worldWidth, int worldHeight, int fishyWorld[40][50])
+{
+		//std::cout << "Players health: " << currentHealth << "/" << maxHealth << std::endl;
+
 		int chanceToCatch; //Everytime an input is given then it randomizes 2 numbers, to make it slightly more random
 		for (int i = 0; i < 2; ++i) //2 numbers instead of 1 as 1 number just makes it slowly increase and shows no randomness
 		{
@@ -34,12 +95,13 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 			//std::cout << chanceToCatch << std::endl;
 		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && canMove(fishyWorld[posBoat.y + startI-2][posBoat.x + startJ]))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && canMove(fishyWorld[posBoat.y + startI-2][posBoat.x + startJ]) && currentHealth > 0)
 	{
-		//shipType[1].setRotation(180);
-		shipRed.setRotation(180);
-		shipBlue.setRotation(180);
-		shipGreen.setRotation(180);
+		for(int i=0; i<5; i++)
+		{
+		shipType[i].setRotation(180);
+		}
+		
 		horizontalDir = false;
 		fishCaughtText = false;
 		fishFledText = false;
@@ -57,12 +119,13 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 			}
 		//std::cout<< "y: "<<posBoat.y + startI<<", x: " <<posBoat.x + startJ<<"\n";
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && canMove(fishyWorld[posBoat.y + startI][posBoat.x + startJ]))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && canMove(fishyWorld[posBoat.y + startI][posBoat.x + startJ]) && currentHealth > 0)
 	{
-		//shipType[shipModels].setRotation(0);
-		shipRed.setRotation(0);
-		shipBlue.setRotation(0);
-		shipGreen.setRotation(0);
+		for(int i=0; i<5; i++)
+		{
+		shipType[i].setRotation(0);
+		}
+
 		horizontalDir = false;
 		fishCaughtText = false;
 		fishFledText = false;
@@ -81,12 +144,13 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 			}
 		//std::cout<< "y: "<<posBoat.y + startI<<", x: " <<posBoat.x + startJ<<"\n";
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && canMove(fishyWorld[posBoat.y + startI -1][posBoat.x + startJ-1]))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && canMove(fishyWorld[posBoat.y + startI -1][posBoat.x + startJ-1]) && currentHealth > 0)
 	{
-		//shipType[1].setRotation(90);
-		shipRed.setRotation(90);
-		shipBlue.setRotation(90);
-		shipGreen.setRotation(90);
+		for(int i=0; i<5; i++)
+		{
+		shipType[i].setRotation(90);
+		}
+
 		horizontalDir = true;
 		fishCaughtText = false;
 		fishFledText = false;
@@ -105,12 +169,13 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 		}
 		//std::cout<< "y: "<<posBoat.y + startI<<", x: " <<posBoat.x + startJ<<"\n";
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && canMove(fishyWorld[posBoat.y + startI-1][posBoat.x + startJ+1]))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && canMove(fishyWorld[posBoat.y + startI-1][posBoat.x + startJ+1]) && currentHealth > 0)
 	{
-		//shipType[1].setRotation(270);
-		shipRed.setRotation(270);
-		shipBlue.setRotation(270);
-		shipGreen.setRotation(270);
+		for(int i=0; i<5; i++)
+		{
+		shipType[i].setRotation(270);
+		}
+		
 		horizontalDir = true;
 		fishCaughtText = false;
 		fishFledText = false;
@@ -132,26 +197,42 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 
 	//std::cout<<fishyWorld[posBoat.x + startJ][posBoat.y + startI];
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && currentHealth > 0)
 	{		
 		if(fishyWorld[posBoat.y + startI][posBoat.x + startJ] && horizontalDir && fishNo < fishMax)
 		{	
-			if (chanceToCatch > 23 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 53) //If the number returned is higher than the prime number 23 you catch the fish, else the fish flees
+			if (chanceToCatch > 23 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 90) //If the number returned is higher than the prime number 23 you catch the fish, else the fish flees
 			{
 				std::cout << "You've rolled: " << chanceToCatch << ", Sardine caught!" << std::endl;
 				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
 				fishNo++;
-				fishValue += 20;
+				
+				//fishValue += 20;
 				std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
 				fishCaughtText = true;
 			}
-			else if (chanceToCatch < 23 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 53)
+			else if (chanceToCatch < 23 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 90)
 			{
 				std::cout << "You've rolled: " << chanceToCatch << ", Sardine fled!" << std::endl;
 				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
 				fishFledText = true;
 			}
-			else if (chanceToCatch > 41 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 55) //If the number returned is higher than the prime number 41 you catch the fish, else the fish flees
+			else if (chanceToCatch > 43  && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 91) //If the number returned is higher than the prime number 23 you catch the fish, else the fish flees
+			{
+				std::cout << "You've rolled: " << chanceToCatch << ", Tuna caught!" << std::endl;
+				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
+				fishNo++;
+				fishValue += 30;
+				std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
+				fishCaughtText = true;
+			}
+			else if (chanceToCatch < 43 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 91)
+			{
+				std::cout << "You've rolled: " << chanceToCatch << ", Tuna fled!" << std::endl;
+				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
+				fishFledText = true;
+			}
+			else if (chanceToCatch > 55 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 92) //If the number returned is higher than the prime number 41 you catch the fish, else the fish flees
 			{
 				std::cout << "You've rolled: " << chanceToCatch << ", Trout caught!" << std::endl;
 				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
@@ -160,24 +241,39 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 				std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
 				fishCaughtText = true;
 			}
-			else if (chanceToCatch < 41 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 55)
+			else if (chanceToCatch < 55 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 92)
 			{	
 				std::cout << "You've rolled: " << chanceToCatch << ", Trout fled!" << std::endl;
 				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
 				fishFledText = true;
 			}
-			else if (chanceToCatch > 83 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 54) //If the number returned is higher than the prime number 83 you catch the fish, else the fish flees
+			else if (chanceToCatch > 75 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 93) //If the number returned is higher than the prime number 83 you catch the fish, else the fish flees
 			{
 				std::cout << "You've rolled: " << chanceToCatch << ", Clownfish caught!" << std::endl;
+				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
+				fishNo++;
+				fishValue += 75;
+				std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
+				fishCaughtText = true;
+			}
+			else if (chanceToCatch < 75 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 93)
+				{
+					std::cout << "You've rolled: " << chanceToCatch << ", Clownfish fled!" << std::endl;
+					fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
+					fishFledText = true;
+				}
+			else if (chanceToCatch > 91 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 94) //If the number returned is higher than the prime number 83 you catch the fish, else the fish flees
+			{
+				std::cout << "You've rolled: " << chanceToCatch << ", Pufferfish caught!" << std::endl;
 				fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
 				fishNo++;
 				fishValue += 100;
 				std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
 				fishCaughtText = true;
 			}
-			else if (chanceToCatch < 83 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 54)
+			else if (chanceToCatch < 91 && fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 94)
 				{
-					std::cout << "You've rolled: " << chanceToCatch << ", Clownfish fled!" << std::endl;
+					std::cout << "You've rolled: " << chanceToCatch << ", Pufferfish fled!" << std::endl;
 					fishyWorld[posBoat.y + startI][posBoat.x + startJ] = 04;
 					fishFledText = true;
 				}
@@ -266,30 +362,45 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 
 	if (fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60)
 	{
+		shopActive = true;
 		std::cout << "Thank you, come again :)" << std::endl;
-		gemsNo += fishValue; //Sells the fish and gives you gems
-		fishValue = 0; //Resets the current fish value
-		fishNo = 0; //Resets the number of fish you're holding
-		std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
+		//std::cout<< "Fish inventory: "<< fishNo << "/" << fishMax << std::endl;
 	}
-	
+	position.x = posBoat.x +startJ;
+	position.y = posBoat.y +startI;
 }
-	void Player::Draw(sf::Sprite &shopPanel, sf::Sprite &fishCaught, sf::Sprite &fishFled, sf::Sprite &fullInventory, sf::Sprite &Shipwreck100, sf::Sprite &Shipwreck200, sf::Sprite &Shipwreck300, sf::Sprite &Shipwreck400, sf::Sprite &Shipwreck500, sf::Vector2i &posBoat, int &startI, int &startJ, int fishyWorld[40][50], sf::RenderWindow &window)
+	void Player::Draw(sf::Sprite shipType[6], sf::Sprite &shopPanel, sf::Sprite &buyButton, sf::Sprite &buy5Button, sf::Sprite &exitShopButton, sf::Sprite &sellFishesButton, sf::Sprite &fishCaught, sf::Sprite &fishFled, sf::Sprite &fullInventory, int PLAYER_SHIP, sf::Sprite &Shipwreck100, sf::Sprite &Shipwreck200, sf::Sprite &Shipwreck300, sf::Sprite &Shipwreck400, sf::Sprite &Shipwreck500, sf::Vector2i &posBoat, int &startI, int &startJ, int fishyWorld[40][50], sf::RenderWindow &window)
 	{
-		if(fishCaughtText)
-		{
-			fishCaught.setPosition(posBoat.x*64+32, posBoat.y*64-75); 
-			window.draw(fishCaught);
-		}
-		else if (fishFledText)
-		{
-			fishFled.setPosition(posBoat.x*64+32, posBoat.y*64-75);
-			window.draw(fishFled);
-		}
-		else if (fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60)
-		{
-			window.draw(shopPanel);
-		}
+
+	if (currentHealth > 0 && PLAYER_SHIP == 1)
+	{
+		window.draw(shipType[0]);
+	}
+	else if (currentHealth > 0 && PLAYER_SHIP == 2)
+	{
+		window.draw(shipType[1]);
+	}
+	else if (currentHealth > 0 && PLAYER_SHIP == 3)
+	{
+		window.draw(shipType[2]);
+	}
+	else if (currentHealth == 0 && PLAYER_SHIP == 1)
+	{
+		window.draw(shipType[3]);
+		shipType[3].setPosition(posBoat.x*64+2 +startJ, posBoat.y*64 +startI);
+	}
+	else if (currentHealth == 0 && PLAYER_SHIP == 2)
+	{
+		window.draw(shipType[4]);
+		shipType[4].setPosition(posBoat.x*64+2 +startJ, posBoat.y*64 +startI);
+	}
+	else if (currentHealth == 0 && PLAYER_SHIP == 3)
+	{
+		window.draw(shipType[5]);
+		shipType[5].setPosition(posBoat.x*64+2 +startJ, posBoat.y*64 +startI);
+	}
+
+
 	//1
 		if(fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 35 || fishyWorld[posBoat.y + startI][posBoat.x + startJ] == 34) //If you have 100 or more gems then you can pay the toll
 		{
@@ -330,15 +441,35 @@ void Player::Inputs(int &gemsNo, sf::Sprite shipType[1], sf::Sprite &shipBlue, s
 			gate = true;
 			//std::cout << "Worked 500" << std::endl;
 		}
-			if (fishNo >= fishMax && !gate)
-			{
-				fullInventory.setPosition(posBoat.x*64+32, posBoat.y*64);
-				window.draw(fullInventory);
-			}
-			else
-			{
+
+		if (fishNo >= fishMax && !gate)
+		{
+			fullInventory.setPosition(posBoat.x*64+32, posBoat.y*64);
+			window.draw(fullInventory);
+		}
+		else
+		{
 			gate = false; //To re-enable the text
-			}
+		}
+
+		if(fishCaughtText)
+		{
+			fishCaught.setPosition(posBoat.x*64+32, posBoat.y*64-75); 
+			window.draw(fishCaught);
+		}
+		else if (fishFledText)
+		{
+			fishFled.setPosition(posBoat.x*64+32, posBoat.y*64-75);
+			window.draw(fishFled);
+		}
+		else if (fishyWorld[posBoat.y-2 + startI][posBoat.x + startJ] == 60 && shopActive)
+		{
+			window.draw(shopPanel);
+			window.draw(exitShopButton);
+			window.draw(sellFishesButton);
+			window.draw(buyButton);
+			window.draw(buy5Button);
+		}
 			//std::cout << "Gate 1: " << gate1 << " " << "Gate 2: " << gate2 << " " << "Gate 3: " << gate3 << " " << "Gate 4: " << gate4 << " " << "Gate 5: " << gate5 << std::endl;
 		//std::cout << "Blockade 4: " << fishyWorld[14][43] << std::endl;
 	}

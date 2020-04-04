@@ -83,11 +83,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemies.cpp" />
+    <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Fish.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="CannonBall.h" />
     <ClInclude Include="Fish.h" />
     <ClInclude Include="loadAssets.h" />
     <ClInclude Include="Player.h" />

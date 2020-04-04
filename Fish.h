@@ -6,30 +6,32 @@ class Fish
 {
 public:
 	int value;
-private:
-	sf::Sprite sardine, trout, clownFish, water_4;
 
 public:
 	Fish(	);
 	~Fish(void);
-	
 
-	void fishSpawner(sf::RenderWindow &window);
-	void spawnFish(int fishType, int fishPositionX, int fishPositionY, int startJ, int startI, sf::RenderWindow &window);
+	void spawnFish(int fishNo, int fishPositionX, int fishPositionY, sf::Sprite fishType[5], int startJ, int startI, sf::RenderWindow &window);
 	
 };
+
+
 
 class Sardine : public Fish
 {
 	public:
-
-		sf::Sprite sardine;
-		
-
 		Sardine()
 		{		
-			value = 20;
-			//fishText.loadFromFile("fishTile.png");
+			value += 20;
+		}
+};
+
+class Tuna : public Fish
+{
+	public:
+		Tuna()
+		{
+			value = 30;
 		}
 };
 
@@ -37,29 +39,27 @@ class Sardine : public Fish
 class Trout : public Fish
 {
 	public:
-
-		sf::Sprite trout;
-
-		/*trout()
+		Trout()
 		{
 			value = 50;
-			grouperText.loadFromFile("GrouperTile.png");
-		}*/
-
-		//~trout();
+		}
 };
 
 class Clownfish : public Fish
 {
 	public:
-		
-		sf::Sprite clownfish;
-
-		/*clownfish()
+		Clownfish()
 		{
-			value = 80;
-			clownfish.loadFromFile("barTile.png");
-		}*/
+			value = 75;
+		}
+		
+};
 
-
+class Pufferfish : public Fish
+{
+	public:
+		Pufferfish()
+		{
+			value = 100;
+		}		
 };
