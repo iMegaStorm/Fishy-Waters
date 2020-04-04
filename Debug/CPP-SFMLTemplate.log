@@ -1,4 +1,4 @@
-﻿Build started 04/04/2020 20:11:03.
+﻿Build started 04/04/2020 20:14:57.
      1>Project "D:\Visual Studio 2012 Projects\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Enemies.cpp main.cpp
@@ -8,13 +8,12 @@
      1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(234): warning C4996: 'sf::Text::setColor': was declared deprecated
                  c:\sfml v2.4.0 (win32 - visual studio 2012)\include\sfml\graphics\text.hpp(177) : see declaration of 'sf::Text::setColor'
      1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(241): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(399): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(405): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(407): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(455): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(484): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(490): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(496): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(396): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(402): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(404): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(481): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(487): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(493): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
          Enemies.cpp
      1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\player.h(26): error C2143: syntax error : missing ';' before '*'
      1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\player.h(26): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
@@ -27,4 +26,4 @@
 
 Build FAILED.
 
-Time Elapsed 00:00:06.55
+Time Elapsed 00:00:02.82

@@ -274,6 +274,7 @@ int main()
 
 	while (window.isOpen()) //The Game Window Loop
 	{
+		
 		//cout << fishyWorld[posBoat.y-1 + startI][posBoat.x + startJ] << endl;
 		while (window.pollEvent(event))
 		{
