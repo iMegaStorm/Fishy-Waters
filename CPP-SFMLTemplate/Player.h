@@ -23,7 +23,8 @@ public:
 	bool gate; //Checks to see if the player is above the shipwreck and then disables the full inventory text
 	bool shopActive; //Draws the shop if this bool is active
 
-	Enemies *enemy;
+
+
 
 	//The "Enemy Bullets" Variables...
 	std::vector<CannonBall*> cannonBall;
@@ -33,11 +34,10 @@ public:
 
 	Player();
 	~Player();
-	void setEnemyClass(Enemies *enemy);
 	bool canMove(int tileType);
-	void Shoot(sf::Vector2i &posEnemy, int enemyCurrentHealth, sf::Sprite currentShip);
+	void Shoot(sf::Vector2i &posEnemy, int &enemyCurrentHealth, sf::Sprite currentShip);
 	void ShootBullets(sf::Vector2i piratePosition);
 	void Inputs (int &gemsNo, sf::Sprite shipType[6], sf::Vector2i &posBoat, int &pStartI, int &pStartJ, int worldWidth, int worldHeight, int fishyWorld[40][50]);
-	void Player::Draw(sf::Sprite shipType[6], sf::Sprite &shopPanel, sf::Sprite &buyButton, sf::Sprite &buy5Button, sf::Sprite &exitShopButton, sf::Sprite &sellFishesButton, sf::Sprite &fishCaught, sf::Sprite &fishFled, sf::Sprite &fullInventory, int PLAYER_SHIP, sf::Sprite &Shipwreck100, sf::Sprite &Shipwreck200, sf::Sprite &Shipwreck300, sf::Sprite &Shipwreck400, sf::Sprite &Shipwreck500, sf::Vector2i &posBoat, int &startI, int &startJ, int fishyWorld[40][50], sf::RenderWindow &window);
+	void Draw(sf::Sprite shipType[6], sf::Sprite &shopPanel, sf::Sprite &buyButton, sf::Sprite &buy5Button, sf::Sprite &exitShopButton, sf::Sprite &sellFishesButton, sf::Sprite &fishCaught, sf::Sprite &fishFled, sf::Sprite &fullInventory, int PLAYER_SHIP, sf::Sprite &Shipwreck100, sf::Sprite &Shipwreck200, sf::Sprite &Shipwreck300, sf::Sprite &Shipwreck400, sf::Sprite &Shipwreck500, sf::Vector2i &posBoat, int &startI, int &startJ, int fishyWorld[40][50], sf::RenderWindow &window);
 };
 

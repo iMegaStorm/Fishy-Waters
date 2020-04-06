@@ -5,11 +5,9 @@ CannonBall cannonFire;
 
 Enemies::Enemies(void)
 {
-	enemyCurrentHealth = 5;
-	enemyMaxHealth = 5;
+	enemyCurrentHealth = enemyMaxHealth = 5;
 	startPos.x = 03;
-	startPos.y = 20;
-	enemyShipSunk = false; 
+	startPos.y = 20; 
 }
 
 
@@ -19,9 +17,43 @@ Enemies::~Enemies(void)
 
 bool Enemies::canMove(int tileType)
 {
-	if (tileType <= 20 || tileType == 90 || tileType == 91 || tileType == 92 || tileType == 93 || tileType == 94) return true;
+	if (tileType == 04 || tileType == 90 || tileType == 91 || tileType == 92 || tileType == 93 || tileType == 94) return true;
 
 	return false;
+}
+
+//void Enemies::Shoot(sf::Vector2i &posBoat, int &CurrentHealth, int startI, int startJ, sf::Sprite currentShip)
+//{
+//	
+//		if (abs(position.x-posBoat.x) == 5 && abs(position.y-posBoat.y) == 19)
+//		{
+//			std::cout << "Can Shoot" << " X: " << abs(position.x-posBoat.x) <<  " Y: " << abs(position.y-posBoat.y) << std::endl;
+//			//std::cout << abs(position.x) << " " << " X: " << abs(position.x-posBoat.x) <<  " Y: " << abs(position.y-posBoat.y) << std::endl;
+//			ShootBullets(posBoat);
+//			currentCannonBall--;
+//		}
+//		else if (abs(position.x-posBoat.x) == 2 && abs(position.y-posBoat.y) == 2)
+//		{
+//			std::cout << "Can Shoot" << " X: " << abs(position.x-posBoat.x) <<  " Y: " << abs(position.y-posBoat.y) << std::endl;
+//			//std::cout << abs(position.y) << " " << abs(posBoat.y) << std::endl;
+//			ShootBullets(posBoat);
+//			currentCannonBall--;
+//		}
+//		else
+//		{
+//			std::cout << "Cant shoot" << " X: " << abs(position.x-posBoat.x -startJ) <<  " Y: " << abs(position.y-posBoat.y -startI) << std::endl;
+//		}
+//	}
+		
+void Enemies::ShootBullets(sf::Vector2i playerPosition)
+{
+//Local Variables
+
+//Main "ShootBullets()"
+	CannonBall* Bullets = new CannonBall();
+	Bullets -> Init("Assets/ships/cannonBall.png", position , playerPosition);
+	cannonBall.push_back(Bullets);
+	//std::cout << position.x << " " << position.y << std::endl;
 }
 
 void Enemies::EnemyInput(sf::Vector2i &posEnemy, sf::Vector2i posBoat, sf::Sprite &pirateShip, int &startI, int &startJ,  int worldWidth, int worldHeight, int fishyWorld[40][50])
@@ -29,16 +61,11 @@ void Enemies::EnemyInput(sf::Vector2i &posEnemy, sf::Vector2i posBoat, sf::Sprit
 	//std::cout << posEnemy.x << " " << posEnemy.y << std::endl;
 	//std::cout << posBoat.x +startJ<< " " << posBoat.y +startI << std::endl;
 	
-
+	
 	posBoat.x += startJ;
 	posBoat.y += startI;
 
-	if (enemyCurrentHealth == 0)
-	{
-		enemyShipSunk = true;
-	}
-
-	if (posBoat.x > startPos.x -6 && posBoat.x < startPos.x +6 && !enemyShipSunk)
+	if (posBoat.x > startPos.x -6 && posBoat.x < startPos.x +5 && enemyCurrentHealth > 0)
 	{
 		if(posEnemy.x > posBoat.x && canMove(fishyWorld[posEnemy.y +startI-1][posEnemy.x +startJ-1]))
 		{
@@ -53,8 +80,7 @@ void Enemies::EnemyInput(sf::Vector2i &posEnemy, sf::Vector2i posBoat, sf::Sprit
 			fishyWorld[posEnemy.y][++posEnemy.x] = 99;
 		}
 	}
-
-	else if (posBoat.y > startPos.y -6 && posBoat.y < startPos.y +6 && !enemyShipSunk)
+	else if (posBoat.y > startPos.y -6 && posBoat.y < startPos.y +5 && enemyCurrentHealth > 0)
 	{
 		if(posEnemy.y > posBoat.y && canMove(fishyWorld[posEnemy.y +startI-2][posEnemy.x +startJ]))
 		{
@@ -69,7 +95,7 @@ void Enemies::EnemyInput(sf::Vector2i &posEnemy, sf::Vector2i posBoat, sf::Sprit
 			fishyWorld[++posEnemy.y][posEnemy.x] = 99;
 		}
 	}
-	std::cout << "Pirates health: " << enemyCurrentHealth << "/" << enemyMaxHealth << std::endl;
+	//std::cout << "Pirates health: " << enemyCurrentHealth << "/" << enemyMaxHealth << std::endl;
 	//std::cout << enemyShipSunk << std::endl;
 }
 
@@ -77,17 +103,17 @@ void Enemies::Draw(sf::Sprite &pirateShip,  sf::Sprite &pirateShipDamaged, sf::S
 {
 	if (enemyCurrentHealth > 2)
 	{
-		pirateShip.setPosition((posEnemy.x -startJ)*64, (posEnemy.y -startI)*64);
+		pirateShip.setPosition((posEnemy.x -startJ)*64+32, (posEnemy.y -startI)*64+32);
 		window.draw(pirateShip);
 	}
-	else if (enemyCurrentHealth >= 2)
+	else if (enemyCurrentHealth <= 2 && enemyCurrentHealth > 0)
 	{
-		pirateShipDamaged.setPosition((posEnemy.x -startJ)*64, (posEnemy.y -startI)*64);
+		pirateShipDamaged.setPosition((posEnemy.x -startJ)*64+32, (posEnemy.y -startI)*64+32);
 		window.draw(pirateShipDamaged);
 	}
-	else if (enemyCurrentHealth == 0)
+	else if (enemyCurrentHealth <= 0)
 	{
-		pirateShipDead.setPosition((posEnemy.x -startJ)*64, (posEnemy.y -startI)*64);
+		pirateShipDead.setPosition((posEnemy.x -startJ)*64+32, (posEnemy.y -startI)*64+32);
 		window.draw(pirateShipDead);
 
 	}

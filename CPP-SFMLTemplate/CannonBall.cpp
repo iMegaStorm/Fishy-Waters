@@ -29,6 +29,11 @@ void CannonBall::Init(std::string TextureName, sf::Vector2i &playerPosition, sf:
 
 	BulletPositionTarget.x = piratePosition.x;
 	BulletPositionTarget.y = piratePosition.y;
+	
+	sf::Vector2i BulletPositionHidden(999,999);
+	
+
+
 
 	BulletTexture.loadFromFile(TextureName.c_str()); //We Load The Enemy Bullet Texture.
 
@@ -37,13 +42,7 @@ void CannonBall::Init(std::string TextureName, sf::Vector2i &playerPosition, sf:
 	BulletSprite.setOrigin(BulletTexture.getSize().x / 2,BulletTexture.getSize().y / 2);
 }
 
-void CannonBall::Update(float Speed)
-{
-//Local Variables
 
-//Main "Update()"
-	BulletSprite.move(CannonBallSpeed * Speed,0);
-}
 
 sf::Sprite CannonBall::GetSprite()
 {

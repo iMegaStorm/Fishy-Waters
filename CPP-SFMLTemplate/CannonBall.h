@@ -12,13 +12,13 @@ public:
 	CannonBall();
 	~CannonBall();
 	void Init(std::string TextureName, sf::Vector2i &playerPosition, sf::Vector2i &piratePosition);
-	void Update(float Speed);
 	sf::Sprite GetSprite();
 	sf::Vector2f BulletPosition;
 	sf::Vector2f BulletPositionTarget;
+	sf::Vector2i BulletPositionHidden;
+	sf::Sprite BulletSprite;
 
 private:
 	sf::Texture BulletTexture;
-	sf::Sprite BulletSprite;
-	float CannonBallSpeed;
+
 };

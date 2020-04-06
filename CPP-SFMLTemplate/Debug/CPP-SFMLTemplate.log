@@ -1,29 +1,28 @@
-﻿Build started 04/04/2020 20:14:57.
+﻿Build started 06/04/2020 08:38:47.
      1>Project "D:\Visual Studio 2012 Projects\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Enemies.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(44): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(145): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(234): warning C4996: 'sf::Text::setColor': was declared deprecated
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(45): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(154): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(241): warning C4996: 'sf::Text::setColor': was declared deprecated
                  c:\sfml v2.4.0 (win32 - visual studio 2012)\include\sfml\graphics\text.hpp(177) : see declaration of 'sf::Text::setColor'
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(241): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(396): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(402): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(404): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(481): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(487): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(493): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Enemies.cpp
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\player.h(26): error C2143: syntax error : missing ';' before '*'
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\player.h(26): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\player.h(36): error C2061: syntax error : identifier 'Enemies'
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\enemies.cpp(80): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\enemies.cpp(85): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\enemies.cpp(90): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-     1>Done Building Project "D:\Visual Studio 2012 Projects\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" (Build target(s)) -- FAILED.
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(247): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(442): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(552): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(581): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(586): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(591): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\visual studio 2012 projects\fishy-waters\cpp-sfmltemplate\main.cpp(625): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Visual Studio 2012 Projects\Fishy-Waters\Debug\Fishy Waters.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML v2.4.0 (Win32 - Visual Studio 2012)\lib" "sfml-system-d.lib" "sfml-graphics-d.lib" "sfml-audio-d.lib" "sfml-network-d.lib" "sfml-window-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Visual Studio 2012 Projects\Fishy-Waters\Debug\Fishy Waters.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Visual Studio 2012 Projects\Fishy-Waters\Debug\Fishy Waters.lib" /MACHINE:X86 Debug\Enemies.obj
+         Debug\CannonBall.obj
+         Debug\Fish.obj
+         Debug\main.obj
+         Debug\Player.obj
+         CPP-SFMLTemplate.vcxproj -> D:\Visual Studio 2012 Projects\Fishy-Waters\Debug\Fishy Waters.exe
+     1>Done Building Project "D:\Visual Studio 2012 Projects\Fishy-Waters\CPP-SFMLTemplate\CPP-SFMLTemplate.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:02.82
+Time Elapsed 00:00:07.55
