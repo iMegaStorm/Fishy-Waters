@@ -356,7 +356,7 @@ int main()
 						CURRENT_SCREEN = INSTRUCTIONS_MENU_SCREEN;
 						enemyShip.enemyCurrentHealth = 5;
 						player.currentHealth = 5;
-						player.gemsNo = 2000;
+						player.gemsNo = 0;
 						player.fishNo = 0;
 						startJ = 0;
 						startI = 0;		
@@ -547,10 +547,10 @@ int main()
 	//getting the seconds
 	int sec = (int) fishyClock.getElapsedTime().asSeconds();
 	//add a row at every secToAdd seconds
-	int secToAdd = 4;
+	int secToAdd = 7;
 	//adding a row only if the game started
 	srand(time(NULL));
-	if(sec % secToAdd == secToAdd - 1 && noFishes < 15)
+	if(sec % secToAdd == secToAdd - 1 && noFishes < 10)
 	{
 		int sI; //x co-ordinate
 		int sJ; //y co-ordinate
@@ -562,10 +562,10 @@ int main()
 		while(fishyWorld[sI][sJ] != 4); //Checking the co-ordinates until it finds water
 		if(fishyWorld[i][j] >= 20)
 		{
-			int ransF = rand() %5; //3 potential fishes, random number to 3
-			if(ransF <= 2) //spawn a fish
+			int ransF = rand() %5; //5 potential fishes to spawn in
+			if(ransF < 5) //spawn a fish
 			{ //If the number is less than or equal to 2 then spawn in a fish
-				ransF += 90; //fish spawn starts at 53
+				ransF += 90; //fish value to spawn starts at 90
 				fishyWorld[sI][sJ] = ransF; //spawn in a fish
 			}
 			fishyClock.restart();
